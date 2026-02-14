@@ -144,18 +144,6 @@ button {
     }
 }
 
-.left-bottom {
-    bottom: 30px;
-    left: 30px;
-    background-image: url("hopper.png");
-}
-
-.right-bottom {
-    bottom: 30px;
-    right: 30px;
-    background-image: url("demo.png");
-}
-
 .broken-heart {
     position: absolute;
     font-size: 28px;
@@ -337,7 +325,7 @@ const cardLeft = document.getElementById("cardLeft");
 const cardRight = document.getElementById("cardRight");
 
 const leftImages = [
-    "hopper1.png",
+    "hopper.png",
     "hopper2.png",
     "hopper3.png",
     "hopper4.png",
@@ -346,7 +334,7 @@ const leftImages = [
 ];
 
 const rightImages = [
-    "demo1.png",
+    "demo.png",
     "demo2.png",
     "demo3.png",
     "demo4.png",
@@ -356,6 +344,9 @@ const rightImages = [
 
 let leftIndex = 0;
 let rightIndex = 0;
+
+cardLeft.style.backgroundImage = `url("${leftImages[0]}")`;
+cardRight.style.backgroundImage = `url("${rightImages[0]}")`;
 
 cardLeft.addEventListener("click", () => {
 
