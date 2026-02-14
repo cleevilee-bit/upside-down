@@ -361,9 +361,9 @@ cardLeft.addEventListener("click", () => {
 
     if (cardLeft.classList.contains("card-poof")) return;
 
-    leftIndex++;
+    if (leftIndex < leftImages.length - 1) {
 
-    if (leftIndex < leftImages.length) {
+        leftIndex++;
 
         cardLeft.classList.remove("card-switch");
         void cardLeft.offsetWidth;
@@ -373,7 +373,6 @@ cardLeft.addEventListener("click", () => {
 
     } else {
 
-        cardLeft.classList.remove("card-switch");
         cardLeft.classList.add("card-poof");
 
         setTimeout(() => {
@@ -387,9 +386,9 @@ cardRight.addEventListener("click", () => {
 
     if (cardRight.classList.contains("card-poof")) return;
 
-    rightIndex++;
+    if (rightIndex < rightImages.length - 1) {
 
-    if (rightIndex < rightImages.length) {
+        rightIndex++;
 
         cardRight.classList.remove("card-switch");
         void cardRight.offsetWidth;
@@ -399,7 +398,6 @@ cardRight.addEventListener("click", () => {
 
     } else {
 
-        cardRight.classList.remove("card-switch");
         cardRight.classList.add("card-poof");
 
         setTimeout(() => {
