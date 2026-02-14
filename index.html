@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Upside Down Valentine</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #250000 0%, #000000 80%);
+    font-family: 'Courier New', monospace;
+    color: #ff1e56;
+    text-align: center;
+}
+
+h1 {
+    margin-top: 25px;
+    animation: flicker 2s infinite alternate;
+    text-shadow: 0 0 10px red, 0 0 20px crimson;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.fog {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,0,0,0.04) 0%, transparent 70%);
+    animation: moveFog 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes moveFog {
+    from { transform: translate(-25%, -25%); }
+    to { transform: translate(0%, 0%); }
+}
+
+#gameArea {
+    position: relative;
+    width: 100vw;
+    height: 60vh;
+    pointer-events: none;
+}
+
+.heart {
+    position: absolute;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#score {
+    font-size: 18px;
+}
+
+#question {
+    display: none;
+    margin-top: 15px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.2s;
+}
+
+#yes {
+    background: #ff1e56;
+    color: white;
+    box-shadow: 0 0 15px red;
+}
+
+#no {
+    background: #333;
+    color: white;
+    position: relative;
+}
+
+#finalScene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: red;
+    font-size: 28px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.background-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-card {
+    pointer-events: auto;
+    position: absolute;
+    width: 320px;
+    height: 420px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.card-switch {
+    animation: switchAnim 0.4s ease;
+}
+
+@keyframes switchAnim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) rotate(3deg); }
+    100% { transform: scale(1); }
+}
+
+.card-poof {
+    animation: poofAnim 0.6s forwards ease-in-out;
+}
+
+@keyframes poofAnim {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.left-bottom {
+    bottom: 30px;
+    left: 30px;
+    background-image: url("hopper.png");
+}
+
+.right-bottom {
+    bottom: 30px;
+    right: 30px;
+    background-image: url("demo.png");
+}
+
+.broken-heart {
+    position: absolute;
+    font-size: 28px;
+    animation: breakFall 0.5s ease-out forwards;
+    z-index: 4;
+    pointer-events: none;
+    filter: blur(0.3px);
+}
+
+@keyframes breakFall {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(30px) scale(0.6);
+        opacity: 0;
+    }
+}
+
+#finalScene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    color: red;
+    font-size: 28px;
+    
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+}
+
+.final-top {
+    font-size: 32px;
+    text-shadow: 0 0 15px red;
+}
+
+.final-gif {
+    width: 350px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(255,0,0,0.6);
+}
+
+.final-bottom {
+    font-size: 26px;
+    text-shadow: 0 0 15px red;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="fog"></div>
+
+<div class="background-layer">
+    <div class="bg-card left-bottom" id="cardLeft"></div>
+    <div class="bg-card right-bottom" id="cardRight"></div>
+</div>
+
+<h1>Поймай 310 сердец, пока их не схавал истязатель разума)))</h1>
+<div id="score">Собрано: 0</div>
+<div id="fakeMessage" style="display:none; margin-top:10px; font-size:18px;">
+    лана, 31 тоже намана)
+</div>
+<div id="gameArea"></div>
+
+<div id="question">
+    <h2>Глеб, ты буиш моей валентинкой?(˶ᵔ ᵕ ᵔ˶)𖹭.ᐟ</h2>
+    <button id="yes">ДА</button>
+    <button id="no">НЕТ</button>
+</div>
+
+<div id="finalScene">
+    <div class="final-top">УРООО!! Демогоргон рад^^</div>
+
+    <img src="demogorgon.gif" class="final-gif">
+
+    <div class="final-bottom">💗!!!Моя ты бувочка, люблю тебя!!!💗</div>
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let score = 0;
+const gameArea = document.getElementById("gameArea");
+const scoreDisplay = document.getElementById("score");
+const question = document.getElementById("question");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const finalScene = document.getElementById("finalScene");
+const music = document.getElementById("bgMusic");
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.pointerEvents = "auto";
+    heart.style.userSelect = "none";
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "0px";
+
+    gameArea.appendChild(heart);
+
+    let fall = setInterval(() => {
+
+        heart.style.top = heart.offsetTop + 4 + "px";
+
+        if (heart.offsetTop > gameArea.offsetHeight - 30){
+
+    	    const broken = document.createElement("div");
+   	     broken.classList.add("broken-heart");
+   	     broken.innerHTML = "💔";
+   	     broken.style.left = heart.style.left;
+   	     broken.style.top = (heart.offsetTop - 10) + "px";
+
+   	     gameArea.appendChild(broken);
+
+    	    heart.remove();
+    	    clearInterval(fall);
+
+    	    setTimeout(() => {
+    	        broken.remove();
+    	    }, 500);
+    	}
+
+    }, 20);
+
+    heart.addEventListener("click", (e) => {
+    	e.stopPropagation();
+    	if (!heart.clicked) {
+            heart.clicked = true;
+            score++;
+            scoreDisplay.innerText = "Собрано: " + score;
+            heart.remove();
+            clearInterval(fall);
+
+            if (score === 31) {
+
+    		document.getElementById("fakeMessage").style.display = "block";
+
+    		setTimeout(() => {
+        	    question.style.display = "block";
+    		}, 1500);
+	    }
+
+            music.play();
+        }
+    });
+}
+
+let heartSpawner = setInterval(createHeart, 700);
+
+noBtn.addEventListener("mouseover", () => {
+
+    noBtn.style.position = "fixed";
+
+    const buttonWidth = noBtn.offsetWidth;
+    const buttonHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - buttonWidth;
+    const maxY = window.innerHeight - buttonHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+});
+
+const cardLeft = document.getElementById("cardLeft");
+const cardRight = document.getElementById("cardRight");
+
+const leftImages = [
+    "hopper1.png",
+    "hopper2.png",
+    "hopper3.png",
+    "hopper4.png",
+    "hopper5.png",
+    "hopper.gif"
+];
+
+const rightImages = [
+    "demo1.png",
+    "demo2.png",
+    "demo3.png",
+    "demo4.png",
+    "demo5.png",
+    "demo.gif"
+];
+
+let leftIndex = 0;
+let rightIndex = 0;
+
+cardLeft.addEventListener("click", () => {
+
+    leftIndex++;
+
+    if (leftIndex < leftImages.length) {
+
+        cardLeft.classList.add("card-switch");
+        cardLeft.style.backgroundImage = `url("${leftImages[leftIndex]}")`;
+
+        setTimeout(() => {
+            cardLeft.classList.remove("card-switch");
+        }, 400);
+
+    } else {
+
+        cardLeft.classList.add("card-poof");
+
+        setTimeout(() => {
+            cardLeft.style.display = "none";
+        }, 600);
+    }
+});
+
+cardRight.addEventListener("click", () => {
+
+    rightIndex++;
+
+    if (rightIndex < rightImages.length) {
+
+        cardRight.classList.add("card-switch");
+        cardRight.style.backgroundImage = `url("${rightImages[rightIndex]}")`;
+
+        setTimeout(() => {
+            cardRight.classList.remove("card-switch");
+        }, 400);
+
+    } else {
+
+        cardRight.classList.add("card-poof");
+
+        setTimeout(() => {
+            cardRight.style.display = "none";
+        }, 600);
+    }
+});
+
+yesBtn.addEventListener("click", () => {
+
+    clearInterval(heartSpawner);
+
+    document.querySelectorAll(".heart").forEach(h => h.remove());
+
+    document.getElementById("gameArea").style.display = "none";
+    document.getElementById("question").style.display = "none";
+    document.getElementById("score").style.display = "none";
+    document.querySelector("h1").style.display = "none";
+
+    finalScene.style.display = "flex";
+});
+
+</script>
+
+</body>
+</html>
