@@ -357,37 +357,55 @@ const rightImages = [
 let leftIndex = 0;
 let rightIndex = 0;
 
-function switchCard(card, images, indexVar) {
+cardLeft.addEventListener("click", () => {
 
-    if (card.classList.contains("card-poof")) return;
+    if (cardLeft.classList.contains("card-poof")) return;
 
-    window[indexVar]++;
+    leftIndex++;
 
-    if (window[indexVar] < images.length) {
+    if (leftIndex < leftImages.length) {
 
-        card.classList.remove("card-switch");
-        void card.offsetWidth; // перезапуск анимации
+        cardLeft.classList.remove("card-switch");
+        void cardLeft.offsetWidth;
 
-        card.style.backgroundImage = `url("${images[window[indexVar]]}")`;
-        card.classList.add("card-switch");
+        cardLeft.style.backgroundImage = `url("${leftImages[leftIndex]}")`;
+        cardLeft.classList.add("card-switch");
 
     } else {
 
-        card.classList.remove("card-switch");
-        card.classList.add("card-poof");
+        cardLeft.classList.remove("card-switch");
+        cardLeft.classList.add("card-poof");
 
         setTimeout(() => {
-            card.style.display = "none";
+            cardLeft.style.display = "none";
         }, 600);
     }
-}
-
-cardLeft.addEventListener("click", () => {
-    switchCard(cardLeft, leftImages, "leftIndex");
 });
 
+
 cardRight.addEventListener("click", () => {
-    switchCard(cardRight, rightImages, "rightIndex");
+
+    if (cardRight.classList.contains("card-poof")) return;
+
+    rightIndex++;
+
+    if (rightIndex < rightImages.length) {
+
+        cardRight.classList.remove("card-switch");
+        void cardRight.offsetWidth;
+
+        cardRight.style.backgroundImage = `url("${rightImages[rightIndex]}")`;
+        cardRight.classList.add("card-switch");
+
+    } else {
+
+        cardRight.classList.remove("card-switch");
+        cardRight.classList.add("card-poof");
+
+        setTimeout(() => {
+            cardRight.style.display = "none";
+        }, 600);
+    }
 });
 
 yesBtn.addEventListener("click", () => {
